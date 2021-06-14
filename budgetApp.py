@@ -1,57 +1,57 @@
 def createSpendChart(categories):
-  categories_names = []  # x_axis
-  separate_spend = []
-  percentBySpend = []
+    categories_names = []  # x_axis
+    separate_spend = []
+    percentBySpend = []
 
-  # fill the 2 lists above
-  for category in categories:
-    total = 0
-    categories_names.append(category.name)
-    for item in category.ledger:
-      if item['amount'] < 0:
-          total -= item['amount']
-          separate_spend.append(total)
+    # fill the 2 lists above
+    for category in categories:
+        total = 0
+        categories_names.append(category.name)
+        for item in category.ledger:
+            if item['amount'] < 0:
+                total -= item['amount']
+                separate_spend.append(total)
 
-  graph = "Percentage spent by category\n"
-  labels = range(100, -10, -10)
-  totalSpent = sum(separate_spend)
+    graph = "Percentage spent by category\n"
+    labels = range(100, -10, -10)
+    totalSpent = sum(separate_spend)
 
-  for spend in separate_spend:
-    percent = (round(spend / totalSpent, 2)) * 100
-    percentBySpend.append(percent)
+    for spend in separate_spend:
+        percent = (round(spend / totalSpent, 2)) * 100
+        percentBySpend.append(percent)
 
-  for label in labels:
-    graph += str(label).rjust(3) + "|"
-    for percent in percentBySpend:
-      if percent >= label:
-        graph += " o "
+    for label in labels:
+        graph += str(label).rjust(3) + "|"
+        for percent in percentBySpend:
+            if percent >= label:
+                graph += " o "
       
-      else:
-        graph += "   "
+            else:
+                graph += "   "
 
-    graph += " \n"
+        graph += " \n"
 
-  graph += ("    " + ("---" * len(categories_names)) + "-\n")
+    graph += ("    " + ("---" * len(categories_names)) + "-\n")
 
-  max_length = len(categories_names[0])
-  for name in categories_names:
-    if len(name) > max_length:
-      max_length = len(name)
-  
-  for i in range(max_length):
-    graph += "    "
+    max_length = len(categories_names[0])
     for name in categories_names:
-      if len(name) > i:
-        graph += " " + name[i] + " "
-      else:
-        graph += "   "
+        if len(name) > max_length:
+            max_length = len(name)
     
-    if i != (max_length - 1):
-      graph += " \n"
-    else:
-      graph += " "
+    for i in range(max_length):
+        graph += "    "
+        for name in categories_names:
+            if len(name) > i:
+                graph += " " + name[i] + " "
+            else:
+                graph += "   "
+    
+        if i != (max_length - 1):
+            graph += " \n"
+        else:
+            graph += " "
   
-  return graph
+    return graph
 
 class Category:
     def __init__(self, name):
